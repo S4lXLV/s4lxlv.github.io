@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sal - Portfolio</title>
+    <title>S4lXLV - Full Stack Developer</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -23,11 +24,20 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Hi, I'm <span class="highlight">Sal</span></h1>
-            <p class="tagline">Software Developer & Tech Enthusiast</p>
+            <h1>Hi, I'm <span class="highlight">S4lXLV</span></h1>
+            <div class="typing-text">
+                <p class="tagline">Full Stack Developer</p>
+                <p class="tagline">Python Developer</p>
+                <p class="tagline">Linux Enthusiast</p>
+            </div>
             <div class="cta-buttons">
                 <a href="#projects" class="cta-primary">View My Work</a>
                 <a href="#contact" class="cta-secondary">Get In Touch</a>
+            </div>
+            <div class="support-button">
+                <a href="https://buymeacoffee.com/s4lxlv" target="_blank" class="coffee-btn">
+                    <i class="fas fa-coffee"></i> Buy Me A Coffee
+                </a>
             </div>
         </div>
     </section>
@@ -36,17 +46,65 @@
         <h2>About Me</h2>
         <div class="about-content">
             <div class="about-text">
-                <p>I'm a passionate software developer with a keen interest in creating elegant solutions to complex problems. My journey in tech has equipped me with a diverse skill set and a deep understanding of modern development practices.</p>
-                <div class="skills">
-                    <h3>Skills</h3>
-                    <div class="skill-tags">
-                        <span>JavaScript</span>
-                        <span>Python</span>
-                        <span>React</span>
-                        <span>Node.js</span>
-                        <span>Git</span>
-                        <span>DevOps</span>
-                    </div>
+                <p>I'm a passionate Full Stack Developer with expertise in creating seamless web experiences. As a Python Developer, I specialize in automation and data analysis. Being a Linux enthusiast and open-source advocate, I'm constantly exploring and learning new technologies to stay at the forefront of development practices.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+        <h2>Tech Stack</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h3>Programming Languages</h3>
+                <div class="skill-tags">
+                    <span class="python">Python</span>
+                    <span class="javascript">JavaScript</span>
+                    <span class="typescript">TypeScript</span>
+                    <span class="kotlin">Kotlin</span>
+                    <span class="bash">Bash</span>
+                </div>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Frontend</h3>
+                <div class="skill-tags">
+                    <span class="react">React</span>
+                    <span class="angular">Angular</span>
+                    <span class="nextjs">Next.js</span>
+                    <span class="flutter">Flutter</span>
+                    <span class="html">HTML</span>
+                    <span class="css">CSS</span>
+                    <span class="tailwind">TailwindCSS</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>Backend</h3>
+                <div class="skill-tags">
+                    <span class="nodejs">Node.js</span>
+                    <span class="django">Django</span>
+                    <span class="flask">Flask</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>Databases</h3>
+                <div class="skill-tags">
+                    <span class="postgresql">PostgreSQL</span>
+                    <span class="mongodb">MongoDB</span>
+                    <span class="sqlite">SQLite</span>
+                    <span class="supabase">Supabase</span>
+                    <span class="firebase">Firebase</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>DevOps & Tools</h3>
+                <div class="skill-tags">
+                    <span class="linux">Linux</span>
+                    <span class="git">Git</span>
+                    <span class="docker">Docker</span>
+                    <span class="vscode">VS Code</span>
                 </div>
             </div>
         </div>
@@ -56,21 +114,42 @@
         <h2>Featured Projects</h2>
         <div class="project-grid">
             <div class="project-card">
-                <div class="project-image"></div>
-                <h3>Project One</h3>
-                <p>A brief description of your first project and its impact.</p>
+                <div class="project-image">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Personal Portfolio</h3>
+                <p>A modern, responsive portfolio website built with HTML, CSS, and JavaScript. Features smooth animations and a clean design.</p>
                 <div class="project-links">
-                    <a href="#" class="project-link"><i class="fab fa-github"></i> View Code</a>
-                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    <a href="https://github.com/s4lxlv/s4lxlv.github.io" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                    <a href="https://s4lxlv.github.io" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image"></div>
-                <h3>Project Two</h3>
-                <p>A brief description of your second project and its impact.</p>
+                <div class="project-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>Automation Tools</h3>
+                <p>Collection of Python scripts for task automation, data processing, and system administration.</p>
                 <div class="project-links">
-                    <a href="#" class="project-link"><i class="fab fa-github"></i> View Code</a>
-                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    <a href="https://github.com/s4lxlv" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <h3>Linux Tools</h3>
+                <p>Custom Linux tools and scripts for system optimization and workflow enhancement.</p>
+                <div class="project-links">
+                    <a href="https://github.com/s4lxlv" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
                 </div>
             </div>
         </div>
@@ -81,14 +160,14 @@
         <div class="contact-content">
             <div class="social-links">
                 <a href="https://github.com/s4lxlv" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:your.email@example.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://x.com/S4lXLV" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://buymeacoffee.com/s4lxlv" target="_blank"><i class="fas fa-coffee"></i></a>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2023 Sal. All rights reserved.</p>
+        <p>&copy; 2023 S4lXLV. All rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>
