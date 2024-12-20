@@ -1,0 +1,108 @@
+/* Contact Section Styles */
+.contact {
+    padding: 8rem 2rem;
+    background: var(--darker);
+    position: relative;
+}
+
+.contact-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 3rem;
+    border: 1px solid var(--glass);
+    backdrop-filter: blur(10px);
+}
+
+.contact .section-header {
+    margin-bottom: 3rem;
+}
+
+.contact-text {
+    color: var(--gray);
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    line-height: 1.8;
+}
+
+.social-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.social-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--gray);
+    text-decoration: none;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--glass);
+    transition: all 0.3s ease;
+}
+
+.social-link i {
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+}
+
+.social-link span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.social-link:hover {
+    background: var(--primary);
+    color: var(--light);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
+}
+
+.social-link.github:hover {
+    background: #333;
+}
+
+.social-link.twitter:hover {
+    background: #000;
+}
+
+.social-link.email:hover {
+    background: #EA4335;
+}
+
+.social-link.coffee:hover {
+    background: #FFDD00;
+    color: #000;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .contact {
+        padding: 6rem 1rem;
+    }
+
+    .contact-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .social-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .social-link {
+        padding: 1.2rem;
+    }
+
+    .contact-text {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+} 

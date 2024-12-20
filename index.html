@@ -3,172 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S4lXLV - Full Stack Developer</title>
+    <title>S4lXLV - Developer & Linux Enthusiast</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo">S4L</div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
         </div>
     </nav>
 
     <section id="home" class="hero">
+        <div class="hero-bg"></div>
         <div class="hero-content">
-            <h1>Hi, I'm <span class="highlight">S4lXLV</span></h1>
-            <div class="typing-text">
-                <p class="tagline">Full Stack Developer</p>
-                <p class="tagline">Python Developer</p>
-                <p class="tagline">Linux Enthusiast</p>
-            </div>
-            <div class="cta-buttons">
-                <a href="#projects" class="cta-primary">View My Work</a>
-                <a href="#contact" class="cta-secondary">Get In Touch</a>
-            </div>
-            <div class="support-button">
-                <a href="https://buymeacoffee.com/s4lxlv" target="_blank" class="coffee-btn">
-                    <i class="fas fa-coffee"></i> Buy Me A Coffee
-                </a>
+            <div class="profile-section">
+                <div class="profile-image">
+                    <img src="https://github.com/s4lxlv.png" alt="S4lXLV" class="avatar">
+                </div>
+                <div class="profile-text">
+                    <h1>Hi, I'm <span class="highlight">S4lXLV</span></h1>
+                    <div class="badges">
+                        <a href="https://buymeacoffee.com/s4lxlv" target="_blank" class="badge coffee-badge">
+                            <i class="fas fa-coffee"></i> Buy Me a Coffee
+                        </a>
+                        <a href="https://x.com/S4lXLV" target="_blank" class="badge twitter-badge">
+                            <i class="fa-brands fa-x-twitter"></i> Follow
+                        </a>
+                    </div>
+                    <div class="typing-text">
+                        <div class="typing-wrapper">
+                            <p class="tagline">Full Stack Developer</p>
+                            <p class="tagline">Python Developer</p>
+                            <p class="tagline">Linux Enthusiast</p>
+                        </div>
+                    </div>
+                    <p class="bio">Building elegant solutions with code. Open source advocate and continuous learner.</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">5+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">20+</span>
+                            <span class="stat-label">Open Source</span>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#projects" class="cta-primary">View Projects</a>
+                        <a href="#contact" class="cta-secondary">Contact Me</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="about" class="about">
-        <h2>About Me</h2>
+        <div class="section-header">
+            <span class="section-title">About Me</span>
+            <h2>Who I Am</h2>
+        </div>
         <div class="about-content">
             <div class="about-text">
-                <p>I'm a passionate Full Stack Developer with expertise in creating seamless web experiences. As a Python Developer, I specialize in automation and data analysis. Being a Linux enthusiast and open-source advocate, I'm constantly exploring and learning new technologies to stay at the forefront of development practices.</p>
+                <p>I'm a passionate Full Stack Developer with expertise in creating seamless web experiences. As a Python Developer, I specialize in automation and data analysis. Being a Linux enthusiast and open-source advocate, I'm constantly exploring and learning new technologies to enhance my skill set.</p>
+                <div class="about-highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-code"></i>
+                        <h3>Full Stack Development</h3>
+                        <p>Building complete web applications from front to back</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-robot"></i>
+                        <h3>Automation</h3>
+                        <p>Creating efficient solutions with Python</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fab fa-linux"></i>
+                        <h3>Linux & DevOps</h3>
+                        <p>System administration and deployment</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="skills" class="skills-section">
-        <h2>Tech Stack</h2>
+        <div class="section-header">
+            <h2>Tech Stack</h2>
+        </div>
         <div class="skills-container">
-            <div class="skill-category">
-                <h3>Programming Languages</h3>
+            <div class="skill-category" data-aos="fade-up">
+                <h3>Languages</h3>
                 <div class="skill-tags">
-                    <span class="python">Python</span>
-                    <span class="javascript">JavaScript</span>
-                    <span class="typescript">TypeScript</span>
-                    <span class="kotlin">Kotlin</span>
-                    <span class="bash">Bash</span>
+                    <span class="skill-tag python" data-tooltip="Python Programming">
+                        <i class="fab fa-python"></i>Python
+                    </span>
+                    <span class="skill-tag javascript" data-tooltip="JavaScript Development">
+                        <i class="fab fa-js"></i>JavaScript
+                    </span>
+                    <span class="skill-tag typescript" data-tooltip="TypeScript Development">
+                        <i class="fab fa-js"></i>TypeScript
+                    </span>
+                    <span class="skill-tag kotlin" data-tooltip="Kotlin Development">
+                        <i class="fab fa-android"></i>Kotlin
+                    </span>
+                    <span class="skill-tag bash" data-tooltip="Shell Scripting">
+                        <i class="fas fa-terminal"></i>Bash
+                    </span>
                 </div>
             </div>
-            
-            <div class="skill-category">
+            <div class="skill-category" data-aos="fade-up">
                 <h3>Frontend</h3>
                 <div class="skill-tags">
-                    <span class="react">React</span>
-                    <span class="angular">Angular</span>
-                    <span class="nextjs">Next.js</span>
-                    <span class="flutter">Flutter</span>
-                    <span class="html">HTML</span>
-                    <span class="css">CSS</span>
-                    <span class="tailwind">TailwindCSS</span>
+                    <span class="skill-tag react" data-tooltip="React.js Development">
+                        <i class="fab fa-react"></i>React
+                    </span>
+                    <span class="skill-tag angular" data-tooltip="Angular Development">
+                        <i class="fab fa-angular"></i>Angular
+                    </span>
+                    <span class="skill-tag nextjs" data-tooltip="Next.js Framework">
+                        <i class="fab fa-react"></i>Next.js
+                    </span>
+                    <span class="skill-tag flutter" data-tooltip="Flutter Development">
+                        <i class="fas fa-mobile-alt"></i>Flutter
+                    </span>
+                    <span class="skill-tag html" data-tooltip="HTML5">
+                        <i class="fab fa-html5"></i>HTML
+                    </span>
+                    <span class="skill-tag css" data-tooltip="CSS3">
+                        <i class="fab fa-css3-alt"></i>CSS
+                    </span>
+                    <span class="skill-tag tailwind" data-tooltip="TailwindCSS Framework">
+                        <i class="fas fa-wind"></i>TailwindCSS
+                    </span>
                 </div>
             </div>
-
-            <div class="skill-category">
+            <div class="skill-category" data-aos="fade-up">
                 <h3>Backend</h3>
                 <div class="skill-tags">
-                    <span class="nodejs">Node.js</span>
-                    <span class="django">Django</span>
-                    <span class="flask">Flask</span>
+                    <span class="skill-tag nodejs" data-tooltip="Node.js Development">
+                        <i class="fab fa-node-js"></i>Node.js
+                    </span>
+                    <span class="skill-tag django" data-tooltip="Django Framework">
+                        <i class="fab fa-python"></i>Django
+                    </span>
+                    <span class="skill-tag flask" data-tooltip="Flask Framework">
+                        <i class="fab fa-python"></i>Flask
+                    </span>
                 </div>
             </div>
-
-            <div class="skill-category">
+            <div class="skill-category" data-aos="fade-up">
                 <h3>Databases</h3>
                 <div class="skill-tags">
-                    <span class="postgresql">PostgreSQL</span>
-                    <span class="mongodb">MongoDB</span>
-                    <span class="sqlite">SQLite</span>
-                    <span class="supabase">Supabase</span>
-                    <span class="firebase">Firebase</span>
+                    <span class="skill-tag postgresql" data-tooltip="PostgreSQL Database">
+                        <i class="fas fa-database"></i>PostgreSQL
+                    </span>
+                    <span class="skill-tag mongodb" data-tooltip="MongoDB Database">
+                        <i class="fas fa-database"></i>MongoDB
+                    </span>
+                    <span class="skill-tag sqlite" data-tooltip="SQLite Database">
+                        <i class="fas fa-database"></i>SQLite
+                    </span>
+                    <span class="skill-tag supabase" data-tooltip="Supabase Platform">
+                        <i class="fas fa-server"></i>Supabase
+                    </span>
+                    <span class="skill-tag firebase" data-tooltip="Firebase Platform">
+                        <i class="fas fa-fire"></i>Firebase
+                    </span>
                 </div>
             </div>
-
-            <div class="skill-category">
+            <div class="skill-category" data-aos="fade-up">
                 <h3>DevOps & Tools</h3>
                 <div class="skill-tags">
-                    <span class="linux">Linux</span>
-                    <span class="git">Git</span>
-                    <span class="docker">Docker</span>
-                    <span class="vscode">VS Code</span>
+                    <span class="skill-tag linux" data-tooltip="Linux System Administration">
+                        <i class="fab fa-linux"></i>Linux
+                    </span>
+                    <span class="skill-tag git" data-tooltip="Git Version Control">
+                        <i class="fab fa-git-alt"></i>Git
+                    </span>
+                    <span class="skill-tag docker" data-tooltip="Docker Containerization">
+                        <i class="fab fa-docker"></i>Docker
+                    </span>
+                    <span class="skill-tag vscode" data-tooltip="VS Code IDE">
+                        <i class="fas fa-code"></i>VS Code
+                    </span>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="projects" class="projects">
-        <h2>Featured Projects</h2>
+        <div class="section-header">
+            <span class="section-title">Featured Work</span>
+            <h2>My Projects</h2>
+        </div>
         <div class="project-grid">
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-code"></i>
+            <article class="project-card">
+                <div class="project-content">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/800x450/1a1a1a/808080?text=Project+1" alt="Full Stack Web App">
+                    </div>
+                    <h3>Full Stack Web App</h3>
+                    <p>A modern web application built with React, Node.js, and PostgreSQL, featuring real-time updates and responsive design.</p>
+                    <div class="project-tech">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>PostgreSQL</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/s4lxlv" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="#" class="project-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-                <h3>Personal Portfolio</h3>
-                <p>A modern, responsive portfolio website built with HTML, CSS, and JavaScript. Features smooth animations and a clean design.</p>
-                <div class="project-links">
-                    <a href="https://github.com/s4lxlv/s4lxlv.github.io" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> View Code
-                    </a>
-                    <a href="https://s4lxlv.github.io" target="_blank" class="project-link">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
-                    </a>
+            </article>
+
+            <article class="project-card">
+                <div class="project-content">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/800x450/1a1a1a/808080?text=Project+2" alt="Python Tool">
+                    </div>
+                    <h3>Python Automation</h3>
+                    <p>An automation tool built with Python, featuring data analysis capabilities and system integration.</p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Data Analysis</span>
+                        <span>Linux</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/s4lxlv" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="#" class="project-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-robot"></i>
+            </article>
+
+            <article class="project-card">
+                <div class="project-content">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/800x450/1a1a1a/808080?text=Project+3" alt="Linux Tool">
+                    </div>
+                    <h3>Linux System Manager</h3>
+                    <p>A comprehensive system management tool for Linux, providing advanced monitoring and automation capabilities.</p>
+                    <div class="project-tech">
+                        <span>Bash</span>
+                        <span>Python</span>
+                        <span>Docker</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/s4lxlv" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="#" class="project-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-                <h3>Automation Tools</h3>
-                <p>Collection of Python scripts for task automation, data processing, and system administration.</p>
-                <div class="project-links">
-                    <a href="https://github.com/s4lxlv" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> View Code
-                    </a>
+            </article>
+
+            <article class="project-card">
+                <div class="project-content">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/800x450/1a1a1a/808080?text=Project+4" alt="DevOps Pipeline">
+                    </div>
+                    <h3>DevOps Pipeline</h3>
+                    <p>A modern CI/CD pipeline implementation using industry-standard tools and practices.</p>
+                    <div class="project-tech">
+                        <span>Jenkins</span>
+                        <span>Docker</span>
+                        <span>Git</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/s4lxlv" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="#" class="project-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-terminal"></i>
+            </article>
+
+            <article class="project-card">
+                <div class="project-content">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/800x450/1a1a1a/808080?text=Project+5" alt="Web App">
+                    </div>
+                    <h3>React Dashboard</h3>
+                    <p>A modern dashboard application with real-time data visualization and analytics features.</p>
+                    <div class="project-tech">
+                        <span>React</span>
+                        <span>Redux</span>
+                        <span>Firebase</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/s4lxlv" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="#" class="project-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-                <h3>Linux Tools</h3>
-                <p>Custom Linux tools and scripts for system optimization and workflow enhancement.</p>
-                <div class="project-links">
-                    <a href="https://github.com/s4lxlv" target="_blank" class="project-link">
-                        <i class="fab fa-github"></i> View Code
-                    </a>
+            </article>
+
+            <article class="project-card">
+                <div class="project-content">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/800x450/1a1a1a/808080?text=Project+6" alt="Mobile App">
+                    </div>
+                    <h3>Flutter App</h3>
+                    <p>A cross-platform mobile application built with Flutter, featuring a modern UI and seamless UX.</p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Dart</span>
+                        <span>Firebase</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/s4lxlv" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        <a href="#" class="project-link" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </article>
         </div>
     </section>
 
     <section id="contact" class="contact">
-        <h2>Get In Touch</h2>
+        <div class="section-header">
+            <span class="section-title">Contact</span>
+            <h2>Get In Touch</h2>
+        </div>
         <div class="contact-content">
+            <p class="contact-text">
+                Feel free to reach out for collaborations, opportunities, or just to say hello! 
+                I'm always open to discussing new projects and ideas.
+            </p>
             <div class="social-links">
-                <a href="https://github.com/s4lxlv" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4lXLV" target="_blank"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://buymeacoffee.com/s4lxlv" target="_blank"><i class="fas fa-coffee"></i></a>
+                <a href="https://github.com/s4lxlv" target="_blank" class="social-link github" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://x.com/S4lXLV" target="_blank" class="social-link twitter" aria-label="X (Twitter)">
+                    <i class="fa-brands fa-square-x-twitter"></i>
+                    <span>X (Twitter)</span>
+                </a>
+                <a href="mailto:your.email@example.com" class="social-link email" aria-label="Email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+                <a href="https://buymeacoffee.com/s4lxlv" target="_blank" class="social-link coffee" aria-label="Buy Me A Coffee">
+                    <i class="fas fa-coffee"></i>
+                    <span>Buy Me Coffee</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2023 S4lXLV. All rights reserved.</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <h3>S4L</h3>
+                <p>Building the future with code</p>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> S4lXLV. All rights reserved.</p>
+        </div>
     </footer>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>
