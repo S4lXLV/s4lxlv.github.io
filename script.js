@@ -5,7 +5,7 @@ const navLinksItems = document.querySelectorAll('.nav-link');
 const navbar = document.querySelector('.navbar');
 const typingWrapper = document.querySelector('.typing-wrapper');
 
-// Mobile Menu
+// Mobile Menu Toggle
 function toggleMobileMenu() {
     mobileMenuBtn.classList.toggle('active');
     navLinks.classList.toggle('active');
