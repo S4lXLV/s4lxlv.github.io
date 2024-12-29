@@ -137,9 +137,31 @@ async function fetchRepoDataFallback(repoUrl) {
     }
 }
 
+// Chrome Store URLs for GitHub projects
+const chromeStoreUrls = {
+    'Twitter-X-Cleaner': 'https://chromewebstore.google.com/detail/twitterx-cleaner/hgmgflgcnpfoaldhklmifmkclbmooame',
+    'Reddit-Copycat': 'https://chromewebstore.google.com/detail/reddit-copycat/dlbgdjjfgmdobjcjdlohjfgmkeljeegp'
+};
+
+// Custom image URLs for specific projects
+const customProjectImages = {
+    'Twitter-X-Cleaner': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Twitter-X-Cleaner.png',
+    'Reddit-Copycat': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Copycat.png',
+    // Add more custom images as needed
+    // 'Project-Name': 'image-url'
+};
+
 // Get repository image with fallbacks
 async function getRepositoryImage(repoUrl) {
     try {
+        // Extract repo name from URL
+        const repoName = repoUrl.split('/')[1];
+
+        // Check for custom image first
+        if (customProjectImages[repoName]) {
+            return customProjectImages[repoName];
+        }
+
         // Try multiple image sources in order
         const imageSources = [
             `https://raw.githubusercontent.com/${repoUrl}/main/social-preview.png`,
@@ -172,11 +194,17 @@ async function getRepositoryImage(repoUrl) {
 function createProjectCard(project) {
     if (!project) return '';
     
+    // Check if it's a Chrome Store project
+    const isChromeProject = project.html_url.includes('chromewebstore.google.com');
+    // Check if GitHub project has a Chrome Store version
+    const chromeStoreUrl = chromeStoreUrls[project.name];
+    
     return `
-        <article class="project-card">
+        <article class="project-card ${project.featured ? 'featured-project' : ''}">
             <div class="project-content">
+                ${project.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured Project</span>' : ''}
                 <div class="project-image">
-                    <a href="${project.html_url}" target="_blank" aria-label="View ${project.name} repository">
+                    <a href="${project.html_url}" target="_blank" aria-label="View ${project.name}">
                         <img src="${project.image}" alt="${project.name}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/github/explore/master/topics/github/github.png'">
                     </a>
                 </div>
@@ -185,24 +213,55 @@ function createProjectCard(project) {
                 <div class="project-tech">
                     ${project.languages.map(lang => `<span>${lang}</span>`).join('')}
                 </div>
-                <div class="project-stats">
-                    <span><i class="fas fa-star"></i> ${project.stars}</span>
-                    <span><i class="fas fa-code-branch"></i> ${project.forks}</span>
-                </div>
-                <div class="project-links">
-                    <a href="${project.html_url}" class="project-link" target="_blank">
-                        <i class="fab fa-github"></i> Code
-                    </a>
-                    ${project.homepage ? `
-                        <a href="${project.homepage}" class="project-link" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> Demo
+                ${isChromeProject ? `
+                    <div class="project-links">
+                        <a href="${project.html_url}" class="project-link" target="_blank">
+                            <i class="fab fa-chrome"></i> Chrome Store
                         </a>
-                    ` : ''}
-                </div>
+                        ${project.producthunt_url ? `
+                            <a href="${project.producthunt_url}" class="project-link" target="_blank">
+                                <i class="fab fa-product-hunt"></i> Product Hunt
+                            </a>
+                        ` : ''}
+                    </div>
+                ` : `
+                    <div class="project-stats">
+                        <span><i class="fas fa-star"></i> ${project.stars}</span>
+                        <span><i class="fas fa-code-branch"></i> ${project.forks}</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="${project.html_url}" class="project-link" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        ${chromeStoreUrl ? `
+                            <a href="${chromeStoreUrl}" class="project-link" target="_blank">
+                                <i class="fab fa-chrome"></i> Chrome Store
+                            </a>
+                        ` : project.homepage ? `
+                            <a href="${project.homepage}" class="project-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                        ` : ''}
+                    </div>
+                `}
             </div>
         </article>
     `;
 }
+
+// Static Chrome Store project
+const chromeStoreProject = {
+    name: "Daily Byte English",
+    description: "A lightweight Chrome extension that delivers daily English learning content in small, digestible portions.",
+    image: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/daily-byte-english.png",
+    languages: ["JavaScript", "HTML", "CSS"],
+    stars: "-",
+    forks: "-",
+    html_url: "https://chromewebstore.google.com/detail/daily-byte-english/acekepmbnnnklfbeagmkncipjdeomieo",
+    homepage: "https://chromewebstore.google.com/detail/daily-byte-english/acekepmbnnnklfbeagmkncipjdeomieo",
+    producthunt_url: "https://www.producthunt.com/posts/daily-byte-english",
+    featured: true // Easy to toggle featured status
+};
 
 // Load and render projects with retry
 async function loadProjects(retryCount = 3) {
@@ -218,12 +277,14 @@ async function loadProjects(retryCount = 3) {
 
         const validProjects = projects.filter(p => p !== null);
 
-        if (validProjects.length === 0) {
+        if (validProjects.length === 0 && !chromeStoreProject) {
             projectGrid.innerHTML = '<p>No projects found</p>';
             return;
         }
 
-        projectGrid.innerHTML = validProjects.map(createProjectCard).join('');
+        // Combine GitHub projects with Chrome Store project
+        const allProjects = [chromeStoreProject, ...validProjects];
+        projectGrid.innerHTML = allProjects.map(project => createProjectCard(project)).join('');
     } catch (error) {
         console.error('Error loading projects:', error);
         if (retryCount > 0) {
