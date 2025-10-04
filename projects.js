@@ -140,13 +140,15 @@ async function fetchRepoDataFallback(repoUrl) {
 // Chrome Store URLs for GitHub projects
 const chromeStoreUrls = {
     'Twitter-X-Cleaner': 'https://chromewebstore.google.com/detail/twitterx-cleaner/hgmgflgcnpfoaldhklmifmkclbmooame',
-    'Reddit-Copycat': 'https://chromewebstore.google.com/detail/reddit-copycat/dlbgdjjfgmdobjcjdlohjfgmkeljeegp'
+    'Reddit-Copycat': 'https://chromewebstore.google.com/detail/reddit-copycat/dlbgdjjfgmdobjcjdlohjfgmkeljeegp',
+    'Reddit Image Saver – No WebP': 'https://chromewebstore.google.com/detail/reddit-image-saver-%E2%80%93-no-w/iaeaknlkmgpimfmglnaifiemmmhmfmde?utm_source=item-share-cb',
 };
 
 // Custom image URLs for specific projects
 const customProjectImages = {
     'Twitter-X-Cleaner': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Twitter-X-Cleaner.png',
     'Reddit-Copycat': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Copycat.png',
+    'Reddit Image Saver – No WebP': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Image-Saver.png',
     // Add more custom images as needed
     // 'Project-Name': 'image-url'
 };
