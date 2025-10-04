@@ -141,7 +141,7 @@ async function fetchRepoDataFallback(repoUrl) {
 const chromeStoreUrls = {
     'Twitter-X-Cleaner': 'https://chromewebstore.google.com/detail/twitterx-cleaner/hgmgflgcnpfoaldhklmifmkclbmooame',
     'Reddit-Copycat': 'https://chromewebstore.google.com/detail/reddit-copycat/dlbgdjjfgmdobjcjdlohjfgmkeljeegp',
-    'Reddit Image Saver – No WebP': 'https://chromewebstore.google.com/detail/reddit-image-saver-%E2%80%93-no-w/iaeaknlkmgpimfmglnaifiemmmhmfmde?utm_source=item-share-cb',
+    'Reddit Image Saver – No WebP': 'https://chromewebstore.google.com/detail/reddit-image-saver-%E2%80%93-no-w/iaeaknlkmgpimfmglnaifiemmmhmfmde',
 };
 
 // Custom image URLs for specific projects
