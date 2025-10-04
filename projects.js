@@ -1,20 +1,78 @@
 // GitHub API configuration
 const GITHUB_API_BASE = 'https://api.github.com/repos';
 
-// Project URLs configuration
-const projectUrls = [
-    'S4lXLV/Twitter-X-Cleaner',
-    'S4lXLV/Reddit-Copycat'
-];
-
 // Cache configuration
 const CACHE_KEY_PREFIX = 'github_repo_';
-const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours (increased from 2 hours)
 
 // GitHub API request headers
 const headers = {
     'Accept': 'application/vnd.github.v3+json'
 };
+
+// Request timeout configuration
+const FETCH_TIMEOUT = 5000; // 5 seconds max per request
+
+// ============================================
+// SIMPLE PROJECT CONFIGURATION
+// ============================================
+// Just add your projects here with their links!
+// The system will automatically:
+// - Fetch GitHub data if github link is provided
+// - Use custom data if no github link
+// - Add Chrome Store, Product Hunt, and custom image links
+// ============================================
+
+const PROJECTS = [
+    {
+        name: "Daily Byte English",
+        github: null, // No GitHub repo (closed source)
+        chromeStore: "https://chromewebstore.google.com/detail/daily-byte-english/acekepmbnnnklfbeagmkncipjdeomieo",
+        productHunt: "https://www.producthunt.com/posts/daily-byte-english",
+        customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/daily-byte-english.png",
+        description: "A lightweight Chrome extension that delivers daily English learning content in small, digestible portions.",
+        languages: ["JavaScript", "HTML", "CSS"],
+        featured: true,
+        stars: '-',
+        forks: '-'
+    },
+    {
+        name: "Twitter-X-Cleaner",
+        github: "S4lXLV/Twitter-X-Cleaner", // Will auto-fetch from GitHub
+        chromeStore: "https://chromewebstore.google.com/detail/twitterx-cleaner/hgmgflgcnpfoaldhklmifmkclbmooame",
+        productHunt: null,
+        customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Twitter-X-Cleaner.png",
+        description: "Clean up your Twitter/X feed by removing unwanted content and distractions.",
+        languages: ["JavaScript", "HTML", "CSS"],
+        featured: false,
+        stars: '?',
+        forks: '?'
+    },
+    {
+        name: "Reddit-Copycat",
+        github: "S4lXLV/Reddit-Copycat",
+        chromeStore: "https://chromewebstore.google.com/detail/reddit-copycat/dlbgdjjfgmdobjcjdlohjfgmkeljeegp",
+        productHunt: null,
+        customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Copycat.png",
+        description: "Easily copy Reddit posts and comments with proper formatting.",
+        languages: ["JavaScript", "HTML", "CSS"],
+        featured: false,
+        stars: '?',
+        forks: '?'
+    },
+    {
+        name: "Reddit Image Saver – No WebP",
+        chromeStore: "https://chromewebstore.google.com/detail/reddit-image-saver-%E2%80%93-no-w/iaeaknlkmgpimfmglnaifiemmmhmfmde",
+        productHunt: "https://www.producthunt.com/products/reddit-image-saver-no-webp",
+        customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Image-Saver.png",
+        description: "A lightweight Chrome extension that saves Reddit images in their original quality and without WebP compression.",
+        languages: ["JavaScript", "HTML", "CSS"],
+        featured: false,
+        stars: '-',
+        forks: '-'
+    }
+    // Add more projects here following the same pattern!
+];
 
 // Check and load data from cache
 function getFromCache(repoUrl) {
@@ -53,23 +111,45 @@ function saveToCache(repoUrl, data) {
     }
 }
 
-// Fetch repository data from GitHub
-async function fetchRepoData(repoUrl) {
+// Fetch with timeout helper
+async function fetchWithTimeout(url, options = {}, timeout = FETCH_TIMEOUT) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+        const response = await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        throw error;
+    }
+}
+
+// Fetch repository data from GitHub (optimized)
+async function fetchRepoData(repoUrl, projectConfig = null) {
     // Try to get data from cache first
     const cachedData = getFromCache(repoUrl);
     if (cachedData) {
         console.log('Using cached data for', repoUrl);
+        // Merge with project config for updated links
+        if (projectConfig) {
+            return { ...cachedData, ...projectConfig, name: cachedData.name };
+        }
         return cachedData;
     }
 
     try {
-        // Fetch from GitHub API if no cache
+        // Fetch from GitHub API if no cache (with timeout)
         console.log('Fetching fresh data for', repoUrl);
-        let response = await fetch(`${GITHUB_API_BASE}/${repoUrl}`, { headers });
+        let response = await fetchWithTimeout(`${GITHUB_API_BASE}/${repoUrl}`, { headers });
         
         if (response.status === 403) {
             console.warn('Rate limited by GitHub API, using fallback method...');
-            const fallbackData = await fetchRepoDataFallback(repoUrl);
+            const fallbackData = await fetchRepoDataFallback(repoUrl, projectConfig);
             if (fallbackData) saveToCache(repoUrl, fallbackData);
             return fallbackData;
         }
@@ -80,12 +160,12 @@ async function fetchRepoData(repoUrl) {
         
         const data = await response.json();
         
-        // Fetch languages
-        const languagesResponse = await fetch(data.languages_url, { headers });
+        // Fetch languages (with timeout)
+        const languagesResponse = await fetchWithTimeout(data.languages_url, { headers });
         const languages = await languagesResponse.json();
 
-        // Get repository image
-        const imageUrl = await getRepositoryImage(repoUrl);
+        // Use custom image directly (no validation to save time)
+        const imageUrl = projectConfig?.customImage || `https://opengraph.githubassets.com/1/${repoUrl}`;
         
         const repoData = {
             name: data.name,
@@ -97,7 +177,13 @@ async function fetchRepoData(repoUrl) {
             html_url: data.html_url,
             topics: data.topics || [],
             image: imageUrl,
-            lastUpdated: Date.now()
+            lastUpdated: Date.now(),
+            // Merge project config data
+            ...(projectConfig && {
+                chromeStore: projectConfig.chromeStore,
+                productHunt: projectConfig.productHunt,
+                featured: projectConfig.featured
+            })
         };
 
         // Save the fresh data to cache
@@ -105,31 +191,37 @@ async function fetchRepoData(repoUrl) {
         return repoData;
     } catch (error) {
         console.error(`Error fetching repo data for ${repoUrl}:`, error);
-        const fallbackData = await fetchRepoDataFallback(repoUrl);
+        const fallbackData = await fetchRepoDataFallback(repoUrl, projectConfig);
         if (fallbackData) saveToCache(repoUrl, fallbackData);
         return fallbackData;
     }
 }
 
 // Fallback method when API fails
-async function fetchRepoDataFallback(repoUrl) {
+function fetchRepoDataFallback(repoUrl, projectConfig = null) {
     try {
         // Extract owner and repo from URL
         const [owner, repo] = repoUrl.split('/');
         
         // Use GitHub's public URL to get basic info
-        const imageUrl = await getRepositoryImage(repoUrl);
+        const imageUrl = getRepositoryImage(repoUrl, projectConfig);
         
         return {
             name: repo,
-            description: 'Repository information temporarily unavailable',
-            stars: '?',
-            forks: '?',
-            languages: [],
+            description: projectConfig?.description || 'Repository information temporarily unavailable',
+            stars: projectConfig?.stars || '?',
+            forks: projectConfig?.forks || '?',
+            languages: projectConfig?.languages || [],
             homepage: `https://github.com/${repoUrl}`,
             html_url: `https://github.com/${repoUrl}`,
             topics: [],
-            image: imageUrl
+            image: imageUrl,
+            // Merge project config data
+            ...(projectConfig && {
+                chromeStore: projectConfig.chromeStore,
+                productHunt: projectConfig.productHunt,
+                featured: projectConfig.featured
+            })
         };
     } catch (error) {
         console.error('Fallback method failed:', error);
@@ -137,76 +229,79 @@ async function fetchRepoDataFallback(repoUrl) {
     }
 }
 
-// Chrome Store URLs for GitHub projects
-const chromeStoreUrls = {
-    'Twitter-X-Cleaner': 'https://chromewebstore.google.com/detail/twitterx-cleaner/hgmgflgcnpfoaldhklmifmkclbmooame',
-    'Reddit-Copycat': 'https://chromewebstore.google.com/detail/reddit-copycat/dlbgdjjfgmdobjcjdlohjfgmkeljeegp',
-    'Reddit Image Saver – No WebP': 'https://chromewebstore.google.com/detail/reddit-image-saver-%E2%80%93-no-w/iaeaknlkmgpimfmglnaifiemmmhmfmde',
-};
+// Helper function to find project config by name
+function getProjectConfig(projectName) {
+    return PROJECTS.find(p => p.name === projectName || p.github?.split('/')[1] === projectName);
+}
 
-// Custom image URLs for specific projects
-const customProjectImages = {
-    'Twitter-X-Cleaner': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Twitter-X-Cleaner.png',
-    'Reddit-Copycat': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Copycat.png',
-    'Reddit Image Saver – No WebP': 'https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Image-Saver.png',
-    // Add more custom images as needed
-    // 'Project-Name': 'image-url'
-};
-
-// Get repository image with fallbacks
-async function getRepositoryImage(repoUrl) {
-    try {
-        // Extract repo name from URL
-        const repoName = repoUrl.split('/')[1];
-
-        // Check for custom image first
-        if (customProjectImages[repoName]) {
-            return customProjectImages[repoName];
-        }
-
-        // Try multiple image sources in order
-        const imageSources = [
-            `https://raw.githubusercontent.com/${repoUrl}/main/social-preview.png`,
-            `https://raw.githubusercontent.com/${repoUrl}/main/.github/social-preview.png`,
-            `https://raw.githubusercontent.com/${repoUrl}/master/social-preview.png`,
-            `https://raw.githubusercontent.com/${repoUrl}/master/.github/social-preview.png`,
-            `https://opengraph.githubassets.com/1/${repoUrl}`
-        ];
-
-        for (const src of imageSources) {
-            try {
-                const response = await fetch(src);
-                if (response.ok) {
-                    return src;
-                }
-            } catch (e) {
-                continue;
-            }
-        }
-
-        // If all attempts fail, return default image
-        return 'https://raw.githubusercontent.com/github/explore/master/topics/github/github.png';
-    } catch (error) {
-        console.warn('Error fetching repo image:', error);
-        return 'https://raw.githubusercontent.com/github/explore/master/topics/github/github.png';
+// Get repository image (optimized - no validation requests)
+function getRepositoryImage(repoUrl, projectConfig = null) {
+    // Check for custom image from project config first
+    if (projectConfig?.customImage) {
+        return projectConfig.customImage;
     }
+
+    // Extract repo name from URL
+    const repoName = repoUrl.split('/')[1];
+
+    // Try to find project config by repo name
+    const config = projectConfig || getProjectConfig(repoName);
+    if (config?.customImage) {
+        return config.customImage;
+    }
+
+    // Use GitHub's OpenGraph image (always works, no validation needed)
+    return `https://opengraph.githubassets.com/1/${repoUrl}`;
 }
 
 // Create project card HTML
 function createProjectCard(project) {
     if (!project) return '';
     
-    // Check if it's a Chrome Store project
-    const isChromeProject = project.html_url.includes('chromewebstore.google.com');
-    // Check if GitHub project has a Chrome Store version
-    const chromeStoreUrl = chromeStoreUrls[project.name];
+    // Determine if it's an open source project (has GitHub repo)
+    const isOpenSource = project.html_url && project.html_url.includes('github.com');
+    
+    // Build links array
+    const links = [];
+    
+    if (isOpenSource) {
+        links.push({
+            url: project.html_url,
+            icon: 'fab fa-github',
+            text: 'GitHub'
+        });
+    }
+    
+    if (project.chromeStore) {
+        links.push({
+            url: project.chromeStore,
+            icon: 'fab fa-chrome',
+            text: 'Chrome Store'
+        });
+    }
+    
+    if (project.productHunt) {
+        links.push({
+            url: project.productHunt,
+            icon: 'fab fa-product-hunt',
+            text: 'Product Hunt'
+        });
+    }
+    
+    if (project.homepage && !project.chromeStore && isOpenSource) {
+        links.push({
+            url: project.homepage,
+            icon: 'fas fa-external-link-alt',
+            text: 'Demo'
+        });
+    }
     
     return `
         <article class="project-card ${project.featured ? 'featured-project' : ''}">
             <div class="project-content">
                 ${project.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured Project</span>' : ''}
                 <div class="project-image">
-                    <a href="${project.html_url}" target="_blank" aria-label="View ${project.name}">
+                    <a href="${links[0]?.url || '#'}" target="_blank" aria-label="View ${project.name}">
                         <img src="${project.image}" alt="${project.name}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/github/explore/master/topics/github/github.png'">
                     </a>
                 </div>
@@ -215,86 +310,85 @@ function createProjectCard(project) {
                 <div class="project-tech">
                     ${project.languages.map(lang => `<span>${lang}</span>`).join('')}
                 </div>
-                ${isChromeProject ? `
-                    <div class="project-links">
-                        <a href="${project.html_url}" class="project-link" target="_blank">
-                            <i class="fab fa-chrome"></i> Chrome Store
-                        </a>
-                        ${project.producthunt_url ? `
-                            <a href="${project.producthunt_url}" class="project-link" target="_blank">
-                                <i class="fab fa-product-hunt"></i> Product Hunt
-                            </a>
-                        ` : ''}
-                    </div>
-                ` : `
+                ${isOpenSource ? `
                     <div class="project-stats">
                         <span><i class="fas fa-star"></i> ${project.stars}</span>
                         <span><i class="fas fa-code-branch"></i> ${project.forks}</span>
                     </div>
-                    <div class="project-links">
-                        <a href="${project.html_url}" class="project-link" target="_blank">
-                            <i class="fab fa-github"></i> Code
+                ` : ''}
+                <div class="project-links">
+                    ${links.map(link => `
+                        <a href="${link.url}" class="project-link" target="_blank">
+                            <i class="${link.icon}"></i> ${link.text}
                         </a>
-                        ${chromeStoreUrl ? `
-                            <a href="${chromeStoreUrl}" class="project-link" target="_blank">
-                                <i class="fab fa-chrome"></i> Chrome Store
-                            </a>
-                        ` : project.homepage ? `
-                            <a href="${project.homepage}" class="project-link" target="_blank">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        ` : ''}
-                    </div>
-                `}
+                    `).join('')}
+                </div>
             </div>
         </article>
     `;
 }
 
-// Static Chrome Store project
-const chromeStoreProject = {
-    name: "Daily Byte English",
-    description: "A lightweight Chrome extension that delivers daily English learning content in small, digestible portions.",
-    image: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/daily-byte-english.png",
-    languages: ["JavaScript", "HTML", "CSS"],
-    stars: "-",
-    forks: "-",
-    html_url: "https://chromewebstore.google.com/detail/daily-byte-english/acekepmbnnnklfbeagmkncipjdeomieo",
-    homepage: "https://chromewebstore.google.com/detail/daily-byte-english/acekepmbnnnklfbeagmkncipjdeomieo",
-    producthunt_url: "https://www.producthunt.com/posts/daily-byte-english",
-    featured: true // Easy to toggle featured status
-};
+// Process a single project configuration
+async function processProject(projectConfig) {
+    // If it has a GitHub repo, fetch data from GitHub
+    if (projectConfig.github) {
+        const githubData = await fetchRepoData(projectConfig.github, projectConfig);
+        return githubData;
+    }
+    
+    // Otherwise, use the manual configuration
+    return {
+        name: projectConfig.name,
+        description: projectConfig.description || 'No description available',
+        stars: '-',
+        forks: '-',
+        languages: projectConfig.languages || [],
+        html_url: projectConfig.chromeStore || projectConfig.productHunt || '#',
+        image: projectConfig.customImage || 'https://raw.githubusercontent.com/github/explore/master/topics/github/github.png',
+        chromeStore: projectConfig.chromeStore,
+        productHunt: projectConfig.productHunt,
+        featured: projectConfig.featured || false
+    };
+}
 
-// Load and render projects with retry
-async function loadProjects(retryCount = 3) {
+// Load and render projects (optimized with immediate display)
+async function loadProjects() {
     const projectGrid = document.querySelector('.project-grid');
     if (!projectGrid) return;
 
+    // Show projects immediately with placeholder data
     projectGrid.innerHTML = '<div class="loading">Loading projects...</div>';
 
     try {
-        const projects = await Promise.all(
-            projectUrls.map(url => fetchRepoData(url))
+        // Process all projects - use Promise.allSettled to handle failures gracefully
+        const projectPromises = PROJECTS.map(config => 
+            processProject(config).catch(err => {
+                console.warn(`Failed to load project ${config.name}:`, err);
+                return null;
+            })
         );
+        
+        const results = await Promise.allSettled(projectPromises);
+        const validProjects = results
+            .filter(result => result.status === 'fulfilled' && result.value !== null)
+            .map(result => result.value);
 
-        const validProjects = projects.filter(p => p !== null);
-
-        if (validProjects.length === 0 && !chromeStoreProject) {
+        if (validProjects.length === 0) {
             projectGrid.innerHTML = '<p>No projects found</p>';
             return;
         }
 
-        // Combine GitHub projects with Chrome Store project
-        const allProjects = [chromeStoreProject, ...validProjects];
-        projectGrid.innerHTML = allProjects.map(project => createProjectCard(project)).join('');
+        // Sort: featured first, then by name
+        validProjects.sort((a, b) => {
+            if (a.featured && !b.featured) return -1;
+            if (!a.featured && b.featured) return 1;
+            return a.name.localeCompare(b.name);
+        });
+
+        projectGrid.innerHTML = validProjects.map(project => createProjectCard(project)).join('');
     } catch (error) {
         console.error('Error loading projects:', error);
-        if (retryCount > 0) {
-            console.log(`Retrying... ${retryCount} attempts remaining`);
-            setTimeout(() => loadProjects(retryCount - 1), 1000);
-        } else {
-            projectGrid.innerHTML = '<p>Error loading projects. Please try again later.</p>';
-        }
+        projectGrid.innerHTML = '<p>Error loading projects. Please refresh the page.</p>';
     }
 }
 
@@ -316,29 +410,40 @@ function clearExpiredCache() {
     }
 }
 
-// Initialize when DOM is loaded
+// Initialize when DOM is loaded (with lazy loading optimization)
 document.addEventListener('DOMContentLoaded', () => {
     clearExpiredCache(); // Clean up expired cache entries
-    loadProjects();
+    
+    // Use Intersection Observer to load projects only when section is near viewport
+    const projectsSection = document.getElementById('projects');
+    if (!projectsSection) {
+        loadProjects(); // Fallback if section not found
+        return;
+    }
+    
+    let projectsLoaded = false;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !projectsLoaded) {
+                projectsLoaded = true;
+                loadProjects();
+                observer.disconnect(); // Stop observing after loading
+            }
+        });
+    }, {
+        rootMargin: '200px' // Start loading 200px before section enters viewport
+    });
+    
+    observer.observe(projectsSection);
+    
+    // Also load immediately if user is already at projects section
+    const projectsTop = projectsSection.getBoundingClientRect().top;
+    if (projectsTop < window.innerHeight) {
+        projectsLoaded = true;
+        loadProjects();
+        observer.disconnect();
+    }
 });
 
 // Export functions for potential reuse
-export { loadProjects };
-
-// Function to add a new project URL
-function addProject(githubUrl) {
-    // Extract owner/repo format from full GitHub URL
-    const match = githubUrl.match(/github\.com\/([^/]+\/[^/]+)/);
-    if (!match) {
-        console.error('Invalid GitHub URL format');
-        return false;
-    }
-    
-    const repoPath = match[1];
-    if (!projectUrls.includes(repoPath)) {
-        projectUrls.push(repoPath);
-        loadProjects(); // Reload projects
-        return true;
-    }
-    return false;
-} 
+export { loadProjects }; 
