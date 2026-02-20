@@ -76,6 +76,7 @@ const PROJECTS = [
         github: "S4lXLV/reddit-notifier", // Will auto-fetch from GitHub
         chromeStore: "https://chromewebstore.google.com/detail/reddit-subreddit-notifier/lainjaephajkoglhagafcidgjoomhach",
         productHunt: null,
+        customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/reddit-notifier.png",
         description: "Get instant desktop notifications for new posts in your favorite subreddits. Setup keyword monitoring and stay updated.",
         languages: ["JavaScript", "HTML", "CSS"],
         featured: false,
