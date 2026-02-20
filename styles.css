@@ -5,6 +5,68 @@
     box-sizing: border-box;
 }
 
+/* SVG Icon System (replaces Font Awesome) */
+.icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    display: inline-block;
+    vertical-align: -0.125em;
+    flex-shrink: 0;
+}
+
+.highlight-item .icon,
+.social-link .icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+}
+
+.social-link .icon {
+    font-size: 1.8rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-bottom: 0;
+}
+
+.skill-tag .icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.skill-tag:hover .icon {
+    transform: scale(1.1);
+}
+
+.badge .icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.back-to-top .icon {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.project-link .icon,
+.project-stats .icon {
+    width: 1em;
+    height: 1em;
+}
+
+.project-stats .icon {
+    color: var(--primary);
+}
+
+.featured-badge .icon {
+    width: 0.85rem;
+    height: 0.85rem;
+}
+
 :root {
     --primary: #FF2A5F;
     --primary-dark: #cc224c;
@@ -461,11 +523,7 @@ body {
     border-color: var(--primary);
 }
 
-.highlight-item i {
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin-bottom: 1.5rem;
-}
+/* icon styles handled by .icon class */
 
 .highlight-item h3 {
     color: var(--light);
@@ -776,14 +834,9 @@ body {
     border-color: currentColor;
 }
 
-.skill-tag i {
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-}
+/* skill-tag icon styles handled by .icon class */
 
-.skill-tag:hover i {
-    transform: scale(1.1);
-}
+/* skill-tag hover icon handled by .icon class */
 
 /* Projects Section */
 .projects {
@@ -1132,10 +1185,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.social-link i {
-    font-size: 1.8rem;
-    transition: all 0.3s ease;
-}
+/* social-link icon styles handled by .icon class */
 
 .social-link span {
     font-size: 0.9rem;

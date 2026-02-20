@@ -280,7 +280,7 @@ function createProjectCard(project) {
     if (isOpenSource) {
         links.push({
             url: project.html_url,
-            icon: 'fab fa-github',
+            icon: 'icon-github',
             text: 'GitHub'
         });
     }
@@ -288,7 +288,7 @@ function createProjectCard(project) {
     if (project.chromeStore) {
         links.push({
             url: project.chromeStore,
-            icon: 'fab fa-chrome',
+            icon: 'icon-chrome',
             text: 'Chrome Store'
         });
     }
@@ -296,7 +296,7 @@ function createProjectCard(project) {
     if (project.productHunt) {
         links.push({
             url: project.productHunt,
-            icon: 'fab fa-product-hunt',
+            icon: 'icon-product-hunt',
             text: 'Product Hunt'
         });
     }
@@ -304,7 +304,7 @@ function createProjectCard(project) {
     if (project.homepage && !project.chromeStore && isOpenSource) {
         links.push({
             url: project.homepage,
-            icon: 'fas fa-external-link-alt',
+            icon: 'icon-external-link',
             text: 'Demo'
         });
     }
@@ -312,7 +312,7 @@ function createProjectCard(project) {
     return `
         <article class="project-card ${project.featured ? 'featured-project' : ''}">
             <div class="project-content">
-                ${project.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured Project</span>' : ''}
+                ${project.featured ? '<span class="featured-badge"><svg class="icon"><use href="#icon-star"></use></svg> Featured Project</span>' : ''}
                 <div class="project-image">
                     <a href="${links[0]?.url || '#'}" target="_blank" aria-label="View ${project.name}">
                         <img src="${project.image}" alt="${project.name}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/github/explore/master/topics/github/github.png'">
@@ -325,14 +325,14 @@ function createProjectCard(project) {
                 </div>
                 ${isOpenSource ? `
                     <div class="project-stats">
-                        <span><i class="fas fa-star"></i> ${project.stars}</span>
-                        <span><i class="fas fa-code-branch"></i> ${project.forks}</span>
+                        <span><svg class="icon"><use href="#icon-star"></use></svg> ${project.stars}</span>
+                        <span><svg class="icon"><use href="#icon-code-branch"></use></svg> ${project.forks}</span>
                     </div>
                 ` : ''}
                 <div class="project-links">
                     ${links.map(link => `
                         <a href="${link.url}" class="project-link" target="_blank">
-                            <i class="${link.icon}"></i> ${link.text}
+                            <svg class="icon"><use href="#${link.icon}"></use></svg> ${link.text}
                         </a>
                     `).join('')}
                 </div>
@@ -364,16 +364,47 @@ async function processProject(projectConfig) {
     };
 }
 
-// Load and render projects (optimized with immediate display)
+// Render projects immediately from config (no API wait)
+function renderProjectsFromConfig() {
+    const projectGrid = document.querySelector('.project-grid');
+    if (!projectGrid) return;
+
+    const instantProjects = PROJECTS.map(config => ({
+        name: config.name,
+        description: config.description || 'No description available',
+        stars: config.stars || '-',
+        forks: config.forks || '-',
+        languages: config.languages || [],
+        html_url: config.github ? `https://github.com/${config.github}` : (config.chromeStore || config.productHunt || '#'),
+        image: config.customImage || 'https://raw.githubusercontent.com/github/explore/master/topics/github/github.png',
+        chromeStore: config.chromeStore,
+        productHunt: config.productHunt,
+        featured: config.featured || false
+    }));
+
+    // Sort: featured first, then by name
+    instantProjects.sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return a.name.localeCompare(b.name);
+    });
+
+    projectGrid.innerHTML = instantProjects.map(project => createProjectCard(project)).join('');
+}
+
+// Load and update projects with fresh GitHub data in background
 async function loadProjects() {
     const projectGrid = document.querySelector('.project-grid');
     if (!projectGrid) return;
 
-    // Show projects immediately with placeholder data
-    projectGrid.innerHTML = '<div class="loading">Loading projects...</div>';
+    // Render immediately from config (no loading spinner!)
+    renderProjectsFromConfig();
 
     try {
-        // Process all projects - use Promise.allSettled to handle failures gracefully
+        // Fetch fresh data in background for GitHub repos only
+        const githubProjects = PROJECTS.filter(p => p.github);
+        if (githubProjects.length === 0) return;
+
         const projectPromises = PROJECTS.map(config =>
             processProject(config).catch(err => {
                 console.warn(`Failed to load project ${config.name}:`, err);
@@ -386,10 +417,7 @@ async function loadProjects() {
             .filter(result => result.status === 'fulfilled' && result.value !== null)
             .map(result => result.value);
 
-        if (validProjects.length === 0) {
-            projectGrid.innerHTML = '<p>No projects found</p>';
-            return;
-        }
+        if (validProjects.length === 0) return;
 
         // Sort: featured first, then by name
         validProjects.sort((a, b) => {
@@ -398,10 +426,11 @@ async function loadProjects() {
             return a.name.localeCompare(b.name);
         });
 
+        // Update with fresh data (stars, forks, etc.)
         projectGrid.innerHTML = validProjects.map(project => createProjectCard(project)).join('');
     } catch (error) {
-        console.error('Error loading projects:', error);
-        projectGrid.innerHTML = '<p>Error loading projects. Please refresh the page.</p>';
+        console.error('Error updating projects with fresh data:', error);
+        // Projects already rendered from config, so no need to show error
     }
 }
 
