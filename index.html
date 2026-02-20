@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,21 +13,28 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://api.github.com">
     <link rel="dns-prefetch" href="https://raw.githubusercontent.com">
-    
+
+    <!-- Preload LCP image -->
+    <link rel="preload" href="https://github.com/s4lxlv.png" as="image">
+
     <!-- Load critical CSS first -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="mobile.css">
     <link rel="stylesheet" href="contact.css">
-    
-    <!-- Load fonts with display=swap for faster rendering -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Load Font Awesome asynchronously -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-    
+
+    <!-- Preload fonts to load them as fast as possible -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Preload and load Font Awesome immediately -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <meta name="google-site-verification" content="c3rICd56Mlv6nJrScgGp2krXA1gCLtPf3kgFVUjwOQY" />
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-content">
@@ -70,7 +78,8 @@
                             <p class="tagline">Linux Enthusiast</p>
                         </div>
                     </div>
-                    <p class="bio">Building elegant solutions with code. Open source advocate and continuous learner.</p>
+                    <p class="bio">Building elegant solutions with code. Open source advocate and continuous learner.
+                    </p>
                     <div class="hero-stats">
                         <div class="stat">
                             <span class="stat-number">5+</span>
@@ -101,7 +110,10 @@
         </div>
         <div class="about-content">
             <div class="about-text">
-                <p>I'm a passionate Full Stack Developer with expertise in creating seamless web experiences. As a Python Developer, I specialize in automation and data analysis. Being a Linux enthusiast and open-source advocate, I'm constantly exploring and learning new technologies to enhance my skill set.</p>
+                <p>I'm a passionate Full Stack Developer with expertise in creating seamless web experiences. As a
+                    Python Developer, I specialize in automation and data analysis. Being a Linux enthusiast and
+                    open-source advocate, I'm constantly exploring and learning new technologies to enhance my skill
+                    set.</p>
                 <div class="about-highlights">
                     <div class="highlight-item">
                         <i class="fas fa-code"></i>
@@ -245,7 +257,7 @@
         </div>
         <div class="contact-content">
             <p class="contact-text">
-                Feel free to reach out for collaborations, opportunities, or just to say hello! 
+                Feel free to reach out for collaborations, opportunities, or just to say hello!
                 I'm always open to discussing new projects and ideas.
             </p>
             <div class="social-links">
@@ -261,7 +273,8 @@
                     <i class="fas fa-envelope"></i>
                     <span>Email</span>
                 </a>
-                <a href="https://buymeacoffee.com/s4lxlv" target="_blank" class="social-link coffee" aria-label="Buy Me A Coffee">
+                <a href="https://buymeacoffee.com/s4lxlv" target="_blank" class="social-link coffee"
+                    aria-label="Buy Me A Coffee">
                     <i class="fas fa-coffee"></i>
                     <span>Buy Me Coffee</span>
                 </a>
@@ -297,4 +310,5 @@
     <script src="script.js"></script>
     <script type="module" src="projects.js"></script>
 </body>
-</html> 
+
+</html>

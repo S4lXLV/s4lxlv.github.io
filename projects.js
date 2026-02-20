@@ -70,6 +70,17 @@ const PROJECTS = [
         featured: false,
         stars: '-',
         forks: '-'
+    },
+    {
+        name: "Reddit Subreddit Notifier",
+        github: "S4lXLV/reddit-notifier", // Will auto-fetch from GitHub
+        chromeStore: "https://chromewebstore.google.com/detail/reddit-subreddit-notifier/lainjaephajkoglhagafcidgjoomhach",
+        productHunt: null,
+        description: "Get instant desktop notifications for new posts in your favorite subreddits. Setup keyword monitoring and stay updated.",
+        languages: ["JavaScript", "HTML", "CSS"],
+        featured: false,
+        stars: '?',
+        forks: '?'
     }
     // Add more projects here following the same pattern!
 ];
@@ -115,7 +126,7 @@ function saveToCache(repoUrl, data) {
 async function fetchWithTimeout(url, options = {}, timeout = FETCH_TIMEOUT) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
-    
+
     try {
         const response = await fetch(url, {
             ...options,
@@ -146,7 +157,7 @@ async function fetchRepoData(repoUrl, projectConfig = null) {
         // Fetch from GitHub API if no cache (with timeout)
         console.log('Fetching fresh data for', repoUrl);
         let response = await fetchWithTimeout(`${GITHUB_API_BASE}/${repoUrl}`, { headers });
-        
+
         if (response.status === 403) {
             console.warn('Rate limited by GitHub API, using fallback method...');
             const fallbackData = await fetchRepoDataFallback(repoUrl, projectConfig);
@@ -157,16 +168,16 @@ async function fetchRepoData(repoUrl, projectConfig = null) {
         if (!response.ok) {
             throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
         }
-        
+
         const data = await response.json();
-        
+
         // Fetch languages (with timeout)
         const languagesResponse = await fetchWithTimeout(data.languages_url, { headers });
         const languages = await languagesResponse.json();
 
         // Use custom image directly (no validation to save time)
         const imageUrl = projectConfig?.customImage || `https://opengraph.githubassets.com/1/${repoUrl}`;
-        
+
         const repoData = {
             name: data.name,
             description: data.description || 'No description available',
@@ -202,10 +213,10 @@ function fetchRepoDataFallback(repoUrl, projectConfig = null) {
     try {
         // Extract owner and repo from URL
         const [owner, repo] = repoUrl.split('/');
-        
+
         // Use GitHub's public URL to get basic info
         const imageUrl = getRepositoryImage(repoUrl, projectConfig);
-        
+
         return {
             name: repo,
             description: projectConfig?.description || 'Repository information temporarily unavailable',
@@ -257,13 +268,13 @@ function getRepositoryImage(repoUrl, projectConfig = null) {
 // Create project card HTML
 function createProjectCard(project) {
     if (!project) return '';
-    
+
     // Determine if it's an open source project (has GitHub repo)
     const isOpenSource = project.html_url && project.html_url.includes('github.com');
-    
+
     // Build links array
     const links = [];
-    
+
     if (isOpenSource) {
         links.push({
             url: project.html_url,
@@ -271,7 +282,7 @@ function createProjectCard(project) {
             text: 'GitHub'
         });
     }
-    
+
     if (project.chromeStore) {
         links.push({
             url: project.chromeStore,
@@ -279,7 +290,7 @@ function createProjectCard(project) {
             text: 'Chrome Store'
         });
     }
-    
+
     if (project.productHunt) {
         links.push({
             url: project.productHunt,
@@ -287,7 +298,7 @@ function createProjectCard(project) {
             text: 'Product Hunt'
         });
     }
-    
+
     if (project.homepage && !project.chromeStore && isOpenSource) {
         links.push({
             url: project.homepage,
@@ -295,7 +306,7 @@ function createProjectCard(project) {
             text: 'Demo'
         });
     }
-    
+
     return `
         <article class="project-card ${project.featured ? 'featured-project' : ''}">
             <div class="project-content">
@@ -335,7 +346,7 @@ async function processProject(projectConfig) {
         const githubData = await fetchRepoData(projectConfig.github, projectConfig);
         return githubData;
     }
-    
+
     // Otherwise, use the manual configuration
     return {
         name: projectConfig.name,
@@ -361,13 +372,13 @@ async function loadProjects() {
 
     try {
         // Process all projects - use Promise.allSettled to handle failures gracefully
-        const projectPromises = PROJECTS.map(config => 
+        const projectPromises = PROJECTS.map(config =>
             processProject(config).catch(err => {
                 console.warn(`Failed to load project ${config.name}:`, err);
                 return null;
             })
         );
-        
+
         const results = await Promise.allSettled(projectPromises);
         const validProjects = results
             .filter(result => result.status === 'fulfilled' && result.value !== null)
@@ -410,39 +421,12 @@ function clearExpiredCache() {
     }
 }
 
-// Initialize when DOM is loaded (with lazy loading optimization)
+// Initialize when DOM is loaded (optimized with immediate loading)
 document.addEventListener('DOMContentLoaded', () => {
     clearExpiredCache(); // Clean up expired cache entries
-    
-    // Use Intersection Observer to load projects only when section is near viewport
-    const projectsSection = document.getElementById('projects');
-    if (!projectsSection) {
-        loadProjects(); // Fallback if section not found
-        return;
-    }
-    
-    let projectsLoaded = false;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !projectsLoaded) {
-                projectsLoaded = true;
-                loadProjects();
-                observer.disconnect(); // Stop observing after loading
-            }
-        });
-    }, {
-        rootMargin: '200px' // Start loading 200px before section enters viewport
-    });
-    
-    observer.observe(projectsSection);
-    
-    // Also load immediately if user is already at projects section
-    const projectsTop = projectsSection.getBoundingClientRect().top;
-    if (projectsTop < window.innerHeight) {
-        projectsLoaded = true;
-        loadProjects();
-        observer.disconnect();
-    }
+
+    // Load projects immediately without waiting for scroll
+    loadProjects();
 });
 
 // Export functions for potential reuse
