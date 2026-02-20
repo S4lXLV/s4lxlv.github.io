@@ -66,11 +66,13 @@
 }
 
 .social-link.github:hover {
-    background: #333;
+    background: #ffffff;
+    color: #121214;
 }
 
 .social-link.twitter:hover {
-    background: #000;
+    background: #ffffff;
+    color: #121214;
 }
 
 .social-link.email:hover {
