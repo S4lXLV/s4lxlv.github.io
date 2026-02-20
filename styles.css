@@ -6,16 +6,19 @@
 }
 
 :root {
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
-    --secondary: #06b6d4;
-    --dark: #111827;
-    --darker: #0a0f1c;
-    --light: #f3f4f6;
-    --gray: #9ca3af;
+    --primary: #FF2A5F;
+    --primary-dark: #cc224c;
+    --secondary: #FFBB00;
+    --dark: #2a2238;
+    /* Softened deep purple/grey for a unified theme */
+    --darker: #1f1a2a;
+    /* Slightly darker shade of the soft bg */
+    --light: #fefefe;
+    --gray: #b8b2c4;
+    /* Warmer, lighter grey that fits the purple-ish background */
     --success: #10b981;
-    --glass: rgba(255, 255, 255, 0.1);
-    --glass-card: rgba(255, 255, 255, 0.05);
+    --glass: rgba(255, 255, 255, 0.08);
+    --glass-card: rgba(255, 255, 255, 0.03);
 }
 
 body {
@@ -31,11 +34,13 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(17, 24, 39, 0.8);
+    background: rgba(31, 26, 42, 0.85);
+    /* rgba equivalent of #1f1a2a with opacity */
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 1rem 0;
-    border-bottom: 1px solid var(--glass);
+    border-bottom: 2px solid var(--primary);
+    /* match unified bold theme */
 }
 
 .nav-content {
@@ -49,12 +54,9 @@ body {
 
 .logo {
     font-size: 2rem;
-    font-weight: 700;
-    color: var(--light);
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 3px 3px 0px var(--secondary);
     letter-spacing: 2px;
 }
 
@@ -79,11 +81,11 @@ body {
     bottom: -5px;
     left: 0;
     width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
+    height: 3px;
+    background: var(--primary);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-link:hover::after,
@@ -220,9 +222,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+    background-image: radial-gradient(var(--primary-dark) 2px, transparent 2px);
+    background-size: 40px 40px;
+    opacity: 0.15;
     z-index: 0;
 }
 
@@ -247,8 +249,8 @@ body {
     width: 280px;
     height: 280px;
     border-radius: 50%;
-    border: 4px solid var(--primary);
-    box-shadow: 0 0 30px rgba(79, 70, 229, 0.3);
+    border: 6px solid var(--primary);
+    box-shadow: 8px 8px 0px var(--secondary);
 }
 
 .profile-text {
@@ -263,28 +265,30 @@ body {
 }
 
 .highlight {
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 700;
+    background-color: var(--primary);
+    color: var(--darker);
+    padding: 0 0.5rem;
+    font-weight: 800;
+    border-radius: 4px;
+    display: inline-block;
+    transform: rotate(-2deg);
     position: relative;
 }
 
 .highlight::after {
-    content: '';
-    position: absolute;
-    right: -0.7rem;
-    top: 10%;
-    width: 6px;
-    height: 80%;
-    background: linear-gradient(to bottom, var(--primary), var(--secondary));
-    animation: blink 1s step-end infinite;
+    display: none;
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 .badges {
@@ -339,14 +343,11 @@ body {
 
 .stat-number {
     display: block;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--light);
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 2px 2px 0px var(--secondary);
     margin-bottom: 0.5rem;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .stat-label {
@@ -364,31 +365,33 @@ body {
     padding: 1rem 2rem;
     border-radius: 8px;
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: 700;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .cta-primary {
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    color: white;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    background: var(--primary);
+    color: var(--darker);
+    border: 2px solid var(--primary);
+    box-shadow: 5px 5px 0px var(--secondary);
 }
 
 .cta-secondary {
-    background: transparent;
-    border: 2px solid var(--primary);
+    background: var(--darker);
+    border: 2px solid var(--light);
     color: var(--light);
+    box-shadow: 5px 5px 0px var(--gray);
 }
 
 .cta-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px var(--secondary);
 }
 
 .cta-secondary:hover {
-    background: rgba(79, 70, 229, 0.1);
-    transform: translateY(-2px);
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px var(--light);
 }
 
 /* About Section */
@@ -556,7 +559,8 @@ body {
         font-size: 3rem;
     }
 
-    .badges, .hero-stats {
+    .badges,
+    .hero-stats {
         justify-content: center;
     }
 
@@ -600,30 +604,125 @@ body {
 }
 
 /* Add your existing skill tag colors here */
-.python { background: #3776AB; color: white; }
-.javascript { background: #F7DF1E; color: black; }
-.typescript { background: #3178C6; color: white; }
-.kotlin { background: #7F52FF; color: white; }
-.bash { background: #4EAA25; color: white; }
-.react { background: #61DAFB; color: black; }
-.angular { background: #DD0031; color: white; }
-.nextjs { background: #000000; color: white; }
-.flutter { background: #02569B; color: white; }
-.html { background: #E34F26; color: white; }
-.css { background: #1572B6; color: white; }
-.tailwind { background: #38B2AC; color: white; }
-.nodejs { background: #339933; color: white; }
-.django { background: #092E20; color: white; }
-.flask { background: #000000; color: white; }
-.postgresql { background: #336791; color: white; }
-.mongodb { background: #47A248; color: white; }
-.sqlite { background: #07405e; color: white; }
-.supabase { background: #3FCF8E; color: white; }
-.firebase { background: #FFCA28; color: black; }
-.linux { background: #FCC624; color: black; }
-.git { background: #F05032; color: white; }
-.docker { background: #2496ED; color: white; }
-.vscode { background: #007ACC; color: white; }
+.python {
+    background: #3776AB;
+    color: white;
+}
+
+.javascript {
+    background: #F7DF1E;
+    color: black;
+}
+
+.typescript {
+    background: #3178C6;
+    color: white;
+}
+
+.kotlin {
+    background: #7F52FF;
+    color: white;
+}
+
+.bash {
+    background: #4EAA25;
+    color: white;
+}
+
+.react {
+    background: #61DAFB;
+    color: black;
+}
+
+.angular {
+    background: #DD0031;
+    color: white;
+}
+
+.nextjs {
+    background: #000000;
+    color: white;
+}
+
+.flutter {
+    background: #02569B;
+    color: white;
+}
+
+.html {
+    background: #E34F26;
+    color: white;
+}
+
+.css {
+    background: #1572B6;
+    color: white;
+}
+
+.tailwind {
+    background: #38B2AC;
+    color: white;
+}
+
+.nodejs {
+    background: #339933;
+    color: white;
+}
+
+.django {
+    background: #092E20;
+    color: white;
+}
+
+.flask {
+    background: #000000;
+    color: white;
+}
+
+.postgresql {
+    background: #336791;
+    color: white;
+}
+
+.mongodb {
+    background: #47A248;
+    color: white;
+}
+
+.sqlite {
+    background: #07405e;
+    color: white;
+}
+
+.supabase {
+    background: #3FCF8E;
+    color: white;
+}
+
+.firebase {
+    background: #FFCA28;
+    color: black;
+}
+
+.linux {
+    background: #FCC624;
+    color: black;
+}
+
+.git {
+    background: #F05032;
+    color: white;
+}
+
+.docker {
+    background: #2496ED;
+    color: white;
+}
+
+.vscode {
+    background: #007ACC;
+    color: white;
+}
 
 /* Skills Section */
 .skills-section {
@@ -645,10 +744,9 @@ body {
     color: var(--light);
     font-size: 1.8rem;
     margin-bottom: 2rem;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    border-bottom: 4px solid var(--primary);
+    padding-bottom: 0.3rem;
 }
 
 .skill-tags {
@@ -835,13 +933,12 @@ body {
 
 /* Featured Project Styles */
 .featured-project {
-    background: linear-gradient(
-        135deg,
-        rgba(79, 70, 229, 0.15) 0%,
-        rgba(6, 182, 212, 0.15) 100%
-    );
-    border: 1px solid rgba(79, 70, 229, 0.3);
+    background: rgba(255, 42, 95, 0.05);
+    /* matches primary with low opacity */
+    border: 2px solid var(--primary);
+    box-shadow: 8px 8px 0px rgba(255, 42, 95, 0.2);
     position: relative;
+    border-radius: 12px;
 }
 
 .featured-project .project-content {
@@ -853,16 +950,16 @@ body {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
+    background: var(--secondary);
+    color: var(--darker);
     padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 800;
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    gap: 0.4rem;
+    box-shadow: 4px 4px 0px var(--primary);
     z-index: 1;
 }
 
@@ -872,10 +969,8 @@ body {
 }
 
 .featured-project h3 {
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary);
+    font-weight: 800;
 }
 
 .featured-project .project-tech span {
@@ -909,7 +1004,7 @@ body {
     .featured-project .project-content {
         grid-template-columns: 1fr;
     }
-    
+
     .featured-project .project-image {
         aspect-ratio: 16/9;
         width: 100%;
@@ -917,6 +1012,7 @@ body {
 }
 
 @media (max-width: 1024px) {
+
     .project-content,
     .project-content.reverse {
         grid-template-columns: 1fr;
@@ -1100,6 +1196,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1140,17 +1237,7 @@ section {
 }
 
 section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-    opacity: 0.5;
+    display: none;
 }
 
 /* Section dividers */
@@ -1160,14 +1247,8 @@ section::after {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        var(--glass) 20%,
-        var(--glass) 80%,
-        transparent 100%
-    );
+    height: 4px;
+    background: var(--darker);
 }
 
 .section-header {
@@ -1200,49 +1281,120 @@ section::after {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    border-radius: 2px;
-} 
+    width: 60px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 0;
+}
 
 /* Add hover effects for each skill tag color */
-.python:hover { box-shadow: 0 8px 20px rgba(55, 118, 171, 0.3); }
-.javascript:hover { box-shadow: 0 8px 20px rgba(247, 223, 30, 0.3); }
-.typescript:hover { box-shadow: 0 8px 20px rgba(49, 120, 198, 0.3); }
-.kotlin:hover { box-shadow: 0 8px 20px rgba(127, 82, 255, 0.3); }
-.bash:hover { box-shadow: 0 8px 20px rgba(78, 170, 37, 0.3); }
-.react:hover { box-shadow: 0 8px 20px rgba(97, 218, 251, 0.3); }
-.angular:hover { box-shadow: 0 8px 20px rgba(221, 0, 49, 0.3); }
-.nextjs:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-.flutter:hover { box-shadow: 0 8px 20px rgba(2, 86, 155, 0.3); }
-.html:hover { box-shadow: 0 8px 20px rgba(227, 79, 38, 0.3); }
-.css:hover { box-shadow: 0 8px 20px rgba(21, 114, 182, 0.3); }
-.tailwind:hover { box-shadow: 0 8px 20px rgba(56, 178, 172, 0.3); }
-.nodejs:hover { box-shadow: 0 8px 20px rgba(51, 153, 51, 0.3); }
-.django:hover { box-shadow: 0 8px 20px rgba(9, 46, 32, 0.3); }
-.flask:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-.postgresql:hover { box-shadow: 0 8px 20px rgba(51, 103, 145, 0.3); }
-.mongodb:hover { box-shadow: 0 8px 20px rgba(71, 162, 72, 0.3); }
-.sqlite:hover { box-shadow: 0 8px 20px rgba(7, 64, 94, 0.3); }
-.supabase:hover { box-shadow: 0 8px 20px rgba(63, 207, 142, 0.3); }
-.firebase:hover { box-shadow: 0 8px 20px rgba(255, 202, 40, 0.3); }
-.linux:hover { box-shadow: 0 8px 20px rgba(252, 198, 36, 0.3); }
-.git:hover { box-shadow: 0 8px 20px rgba(240, 80, 50, 0.3); }
-.docker:hover { box-shadow: 0 8px 20px rgba(36, 150, 237, 0.3); }
-.vscode:hover { box-shadow: 0 8px 20px rgba(0, 122, 204, 0.3); } 
+.python:hover {
+    box-shadow: 0 8px 20px rgba(55, 118, 171, 0.3);
+}
+
+.javascript:hover {
+    box-shadow: 0 8px 20px rgba(247, 223, 30, 0.3);
+}
+
+.typescript:hover {
+    box-shadow: 0 8px 20px rgba(49, 120, 198, 0.3);
+}
+
+.kotlin:hover {
+    box-shadow: 0 8px 20px rgba(127, 82, 255, 0.3);
+}
+
+.bash:hover {
+    box-shadow: 0 8px 20px rgba(78, 170, 37, 0.3);
+}
+
+.react:hover {
+    box-shadow: 0 8px 20px rgba(97, 218, 251, 0.3);
+}
+
+.angular:hover {
+    box-shadow: 0 8px 20px rgba(221, 0, 49, 0.3);
+}
+
+.nextjs:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.flutter:hover {
+    box-shadow: 0 8px 20px rgba(2, 86, 155, 0.3);
+}
+
+.html:hover {
+    box-shadow: 0 8px 20px rgba(227, 79, 38, 0.3);
+}
+
+.css:hover {
+    box-shadow: 0 8px 20px rgba(21, 114, 182, 0.3);
+}
+
+.tailwind:hover {
+    box-shadow: 0 8px 20px rgba(56, 178, 172, 0.3);
+}
+
+.nodejs:hover {
+    box-shadow: 0 8px 20px rgba(51, 153, 51, 0.3);
+}
+
+.django:hover {
+    box-shadow: 0 8px 20px rgba(9, 46, 32, 0.3);
+}
+
+.flask:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.postgresql:hover {
+    box-shadow: 0 8px 20px rgba(51, 103, 145, 0.3);
+}
+
+.mongodb:hover {
+    box-shadow: 0 8px 20px rgba(71, 162, 72, 0.3);
+}
+
+.sqlite:hover {
+    box-shadow: 0 8px 20px rgba(7, 64, 94, 0.3);
+}
+
+.supabase:hover {
+    box-shadow: 0 8px 20px rgba(63, 207, 142, 0.3);
+}
+
+.firebase:hover {
+    box-shadow: 0 8px 20px rgba(255, 202, 40, 0.3);
+}
+
+.linux:hover {
+    box-shadow: 0 8px 20px rgba(252, 198, 36, 0.3);
+}
+
+.git:hover {
+    box-shadow: 0 8px 20px rgba(240, 80, 50, 0.3);
+}
+
+.docker:hover {
+    box-shadow: 0 8px 20px rgba(36, 150, 237, 0.3);
+}
+
+.vscode:hover {
+    box-shadow: 0 8px 20px rgba(0, 122, 204, 0.3);
+}
 
 /* Back to Top Button */
 .back-to-top {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    color: white;
+    background: var(--primary);
+    color: var(--darker);
     width: 3.5rem;
     height: 3.5rem;
-    border-radius: 50%;
-    border: none;
+    border-radius: 8px;
+    border: 2px solid var(--primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1252,7 +1404,7 @@ section::after {
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    box-shadow: 4px 4px 0px var(--secondary);
     z-index: 999;
 }
 
@@ -1263,8 +1415,8 @@ section::after {
 }
 
 .back-to-top:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    transform: translate(-2px, -7px);
+    box-shadow: 6px 6px 0px var(--secondary);
 }
 
 @media (max-width: 768px) {
@@ -1275,7 +1427,7 @@ section::after {
         height: 3rem;
         font-size: 1rem;
     }
-} 
+}
 
 .project-stats {
     display: flex;
@@ -1319,4 +1471,4 @@ section::after {
     to {
         transform: rotate(360deg);
     }
-} 
+}

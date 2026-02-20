@@ -60,9 +60,9 @@
 
 .social-link:hover {
     background: var(--primary);
-    color: var(--light);
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
+    color: var(--darker);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--secondary);
 }
 
 .social-link.github:hover {
@@ -105,4 +105,4 @@
         font-size: 1.1rem;
         margin-bottom: 2rem;
     }
-} 
+}
