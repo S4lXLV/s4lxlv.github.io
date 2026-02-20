@@ -45,8 +45,8 @@ const PROJECTS = [
         description: "Clean up your Twitter/X feed by removing unwanted content and distractions.",
         languages: ["JavaScript", "HTML", "CSS"],
         featured: false,
-        stars: '?',
-        forks: '?'
+        stars: '-',
+        forks: '-'
     },
     {
         name: "Reddit-Copycat",
@@ -57,11 +57,12 @@ const PROJECTS = [
         description: "Easily copy Reddit posts and comments with proper formatting.",
         languages: ["JavaScript", "HTML", "CSS"],
         featured: false,
-        stars: '?',
-        forks: '?'
+        stars: '-',
+        forks: '-'
     },
     {
         name: "Reddit Image Saver – No WebP",
+        github: null, // No GitHub repo (closed source)
         chromeStore: "https://chromewebstore.google.com/detail/reddit-image-saver-%E2%80%93-no-w/iaeaknlkmgpimfmglnaifiemmmhmfmde",
         productHunt: "https://www.producthunt.com/products/reddit-image-saver-no-webp",
         customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/Reddit-Image-Saver.png",
@@ -73,15 +74,15 @@ const PROJECTS = [
     },
     {
         name: "Reddit Subreddit Notifier",
-        github: "S4lXLV/reddit-notifier", // Will auto-fetch from GitHub
+        github: null, // No GitHub repo (closed source)
         chromeStore: "https://chromewebstore.google.com/detail/reddit-subreddit-notifier/lainjaephajkoglhagafcidgjoomhach",
         productHunt: null,
         customImage: "https://raw.githubusercontent.com/S4lXLV/imgz/refs/heads/main/reddit-notifier.png",
         description: "Get instant desktop notifications for new posts in your favorite subreddits. Setup keyword monitoring and stay updated.",
         languages: ["JavaScript", "HTML", "CSS"],
         featured: false,
-        stars: '?',
-        forks: '?'
+        stars: '-',
+        forks: '-'
     }
     // Add more projects here following the same pattern!
 ];
